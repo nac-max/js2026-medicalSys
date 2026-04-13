@@ -106,11 +106,23 @@ const LoginPage: React.FC = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%)',
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         py: 3,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+          opacity: 0.5,
+          pointerEvents: 'none',
+        },
       }}
     >
       <Container maxWidth="sm">
@@ -123,30 +135,24 @@ const LoginPage: React.FC = () => {
             margin: '0 auto',
           }}
         >
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <LocalHospital sx={{ fontSize: 64, color: '#667eea', mb: 2 }} />
-            <Typography variant="h4" component="h1" fontWeight="bold" color="primary" gutterBottom>
+          <Box sx={{ textAlign: 'left', mb: 4 }}>
+            <LocalHospital sx={{ fontSize: 56, color: '#2d6a4f', mb: 2 }} />
+            <Typography variant="h4" component="h1" fontWeight="800" color="text.primary" gutterBottom sx={{ letterSpacing: '-0.02em' }}>
               MediCareAI
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              智能疾病管理系统
+              智能疾病管理系统 — 患者入口
             </Typography>
-            
-            <Card sx={{ mt: 3, mb: 2, bgcolor: '#f8f9fa' }}>
-              <CardContent sx={{ py: 2 }}>
-                <Typography variant="h6" color="primary" gutterBottom>
-                  📋 关于 MediCareAI
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
-                  MediCareAI 是一个依托人工智能技术实现的专业疾病管理系统。系统旨在对患者疾病进行定期随访和智能管理，
-                  集成 MinerU 文档抽取和 AI 大语言模型，为医疗工作者提供强大的辅助诊断和治疗建议。
-                  支持全科室疾病管理，包括内科、外科、儿科、妇科等多个专业领域。
-                </Typography>
-                <Typography variant="caption" color="primary" sx={{ display: 'block', mt: 1, fontWeight: 500 }}>
-                  👤 作者：苏业钦 | License: MIT
-                </Typography>
-              </CardContent>
-            </Card>
+
+            <Box sx={{ mt: 3, mb: 2, p: 2, bgcolor: '#f0f7f4', borderRadius: 2, borderLeft: '4px solid #2d6a4f' }}>
+              <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                MediCareAI 是一个依托人工智能技术实现的专业疾病管理系统，集成 MinerU 文档抽取和 AI 大语言模型，
+                为医疗工作者提供强大的辅助诊断和治疗建议。
+              </Typography>
+              <Typography variant="caption" color="#2d6a4f" sx={{ display: 'block', mt: 1, fontWeight: 600 }}>
+                长安大学 Chang'an University
+              </Typography>
+            </Box>
           </Box>
 
           <Box component="form" onSubmit={handleSubmit(onSubmit)}>
@@ -239,9 +245,11 @@ const LoginPage: React.FC = () => {
               disabled={isSubmitting || isLoading}
               sx={{
                 py: 1.5,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
+                boxShadow: '0 4px 15px rgba(45, 106, 79, 0.4)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
+                  background: 'linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%)',
+                  boxShadow: '0 6px 20px rgba(45, 106, 79, 0.5)',
                 },
               }}
             >

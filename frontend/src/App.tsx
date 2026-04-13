@@ -49,10 +49,10 @@ import EmailConfig from './pages/admin/EmailConfig';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#667eea',
+      main: '#2d6a4f',
     },
     secondary: {
-      main: '#764ba2',
+      main: '#52b788',
     },
     background: {
       default: '#f5f5f5',

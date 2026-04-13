@@ -347,13 +347,13 @@ const MedicalRecordDetail: React.FC = () => {
             <IconButton onClick={() => navigate('/patient/medical-records')} sx={{ mr: 1 }}>
               <ArrowBackIcon />
             </IconButton>
-            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#667eea' }} />
-            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#2d6a4f' }} />
+            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
               MediCareAI - 诊疗记录详情
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Avatar sx={{ bgcolor: '#667eea' }}>
+            <Avatar sx={{ bgcolor: '#2d6a4f' }}>
               {user?.full_name?.charAt(0) || '患'}
             </Avatar>
             <Typography variant="body1">
@@ -520,7 +520,7 @@ const MedicalRecordDetail: React.FC = () => {
               ) : (
                 <Box>
                   {comments.map((comment) => (
-                    <Card key={comment.id} sx={{ mb: 2, borderLeft: '4px solid #667eea' }}>
+                    <Card key={comment.id} sx={{ mb: 2, borderLeft: '4px solid #2d6a4f' }}>
                       <CardContent>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1 }}>
                           <Typography variant="subtitle1" fontWeight="bold">
@@ -652,7 +652,7 @@ const MedicalRecordDetail: React.FC = () => {
           sx: { borderRadius: 3, overflow: 'hidden' }
         }}
       >
-        <DialogTitle sx={{ bgcolor: 'linear-gradient(135deg, #667eea, #764ba2)', color: 'white' }}>
+        <DialogTitle sx={{ bgcolor: 'linear-gradient(135deg, #2d6a4f, #52b788)', color: 'white' }}>
           🔗 分享诊断报告
         </DialogTitle>
         <DialogContent>
@@ -689,7 +689,7 @@ const MedicalRecordDetail: React.FC = () => {
                       key={doctor.id}
                       sx={{
                         mb: 1,
-                        border: isSelected ? '2px solid #667eea' : '1px solid #e0e0e0',
+                        border: isSelected ? '2px solid #2d6a4f' : '1px solid #e0e0e0',
                         bgcolor: isSelected ? '#f0f3ff' : 'white',
                         cursor: 'pointer',
                       }}
@@ -708,7 +708,7 @@ const MedicalRecordDetail: React.FC = () => {
                               专业领域：{doctor.specialty || '未填写'}
                             </Typography>
                           </Box>
-                          <Typography variant="h6" color={isSelected ? '#667eea' : '#ccc'}>
+                          <Typography variant="h6" color={isSelected ? '#2d6a4f' : '#ccc'}>
                             {isSelected ? '✓' : '+'}
                           </Typography>
                         </Box>
@@ -721,7 +721,7 @@ const MedicalRecordDetail: React.FC = () => {
 
             {/* Selected Doctors */}
             {selectedDoctors.length > 0 && (
-              <Box sx={{ mb: 3, p: 2, bgcolor: '#f0f3ff', border: '1px solid #667eea', borderRadius: 2 }}>
+              <Box sx={{ mb: 3, p: 2, bgcolor: '#f0f3ff', border: '1px solid #2d6a4f', borderRadius: 2 }}>
                 <Typography variant="h6" gutterBottom>
                   已选择医生
                 </Typography>
@@ -792,7 +792,7 @@ const MedicalRecordDetail: React.FC = () => {
           sx: { borderRadius: 3, overflow: 'hidden' }
         }}
       >
-        <DialogTitle sx={{ bgcolor: 'linear-gradient(135deg, #667eea, #764ba2)', color: 'white' }}>
+        <DialogTitle sx={{ bgcolor: 'linear-gradient(135deg, #2d6a4f, #52b788)', color: 'white' }}>
           📊 病历对比
         </DialogTitle>
         <DialogContent>

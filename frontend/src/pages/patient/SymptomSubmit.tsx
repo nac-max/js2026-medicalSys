@@ -383,13 +383,13 @@ const SymptomSubmit: React.FC = () => {
       <AppBar position="static" elevation={4}>
         <Toolbar sx={{ backgroundColor: 'white', color: '#333' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#667eea' }} />
-            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#2d6a4f' }} />
+            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
               MediCareAI
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Avatar sx={{ bgcolor: '#667eea' }}>
+            <Avatar sx={{ bgcolor: '#2d6a4f' }}>
               {user?.full_name?.charAt(0) || '患'}
             </Avatar>
             <Typography variant="body1">
@@ -539,14 +539,14 @@ const SymptomSubmit: React.FC = () => {
               elevation={1}
               sx={{
                 p: 4,
-                border: '2px dashed #667eea',
+                border: '2px dashed #2d6a4f',
                 borderRadius: 2,
                 textAlign: 'center',
                 cursor: 'pointer',
                 bgcolor: '#f8f9fa',
                 '&:hover': {
                   bgcolor: '#e9ecef',
-                  borderColor: '#764ba2',
+                  borderColor: '#52b788',
                 },
               }}
               onClick={() => fileInputRef.current?.click()}
@@ -561,7 +561,7 @@ const SymptomSubmit: React.FC = () => {
                 onChange={handleFileSelect}
                 accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
               />
-              <CloudUploadIcon sx={{ fontSize: 64, mb: 2, color: '#667eea' }} />
+              <CloudUploadIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
               <Typography variant="body1" gutterBottom>
                 点击或拖拽文件到此处
               </Typography>
@@ -674,7 +674,7 @@ const SymptomSubmit: React.FC = () => {
                       key={doctor.id}
                       sx={{
                         mb: 1,
-                        border: isSelected ? '2px solid #667eea' : '1px solid #e0e0e0',
+                        border: isSelected ? '2px solid #2d6a4f' : '1px solid #e0e0e0',
                         bgcolor: isSelected ? '#f0f3ff' : 'white',
                         cursor: 'pointer',
                       }}
@@ -693,7 +693,7 @@ const SymptomSubmit: React.FC = () => {
                               专业领域：{doctor.specialty || '未填写'}
                             </Typography>
                           </Box>
-                          <Typography variant="h6" color={isSelected ? '#667eea' : '#ccc'}>
+                          <Typography variant="h6" color={isSelected ? '#2d6a4f' : '#ccc'}>
                             {isSelected ? '✓' : '+'}
                           </Typography>
                         </Box>
@@ -706,7 +706,7 @@ const SymptomSubmit: React.FC = () => {
 
             {/* Selected Doctors */}
             {selectedDoctors.length > 0 && (
-              <Paper elevation={1} sx={{ mb: 2, p: 2, bgcolor: '#f0f3ff', border: '1px solid #667eea' }}>
+              <Paper elevation={1} sx={{ mb: 2, p: 2, bgcolor: '#f0f3ff', border: '1px solid #2d6a4f' }}>
                 <Typography variant="h6" gutterBottom>
                   已选择 {selectedDoctors.length} 位医生
                 </Typography>
@@ -937,7 +937,7 @@ const SymptomSubmit: React.FC = () => {
                     left: 0,
                     right: 0,
                     height: '3px',
-                    background: 'linear-gradient(90deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(90deg, #2d6a4f 0%, #52b788 100%)',
                   },
                 }}
               >
@@ -949,7 +949,7 @@ const SymptomSubmit: React.FC = () => {
                           width: 44,
                           height: 44,
                           borderRadius: '12px',
-                          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                          background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
@@ -1069,14 +1069,14 @@ const SymptomSubmit: React.FC = () => {
                           key={`${sourceIndex}-${chunkIndex}`}
                           sx={{
                             mb: 1,
-                            borderLeft: '4px solid #667eea',
+                            borderLeft: '4px solid #2d6a4f',
                             boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
                             '&:hover': { boxShadow: '0 4px 8px rgba(0,0,0,0.1)' }
                           }}
                         >
                           <CardContent sx={{ p: 2, '&:last-child': { pb: 2 } }}>
                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 1 }}>
-                              <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#667eea', flex: 1 }}>
+                              <Typography variant="subtitle2" sx={{ fontWeight: 'bold', color: '#2d6a4f', flex: 1 }}>
                                 {chunk.document_title || source.document_title || source.category_name || source.category || '未知文档'}
                               </Typography>
                               {chunk.relevance_score !== undefined && (

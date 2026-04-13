@@ -150,7 +150,7 @@ const RegisterPage: React.FC = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -168,7 +168,7 @@ const RegisterPage: React.FC = () => {
           }}
         >
           <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <LocalHospital sx={{ fontSize: 64, color: '#667eea', mb: 2 }} />
+            <LocalHospital sx={{ fontSize: 64, color: '#2d6a4f', mb: 2 }} />
             <Typography variant="h4" component="h1" fontWeight="bold" color="primary" gutterBottom>
               <PersonOutline sx={{ verticalAlign: 'middle', mr: 1 }} />
               注册账户
@@ -550,7 +550,7 @@ const RegisterPage: React.FC = () => {
               disabled={isSubmitting || isLoading}
               sx={{
                 py: 1.5,
-                background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                 '&:hover': {
                   background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
                 },

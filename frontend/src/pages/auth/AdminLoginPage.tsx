@@ -112,17 +112,29 @@ const AdminLoginPage: React.FC = () => {
       sx={{
         minHeight: '100vh',
         background: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         py: 4,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+          opacity: 0.5,
+          pointerEvents: 'none',
+        },
       }}
     >
       <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-          <Box textAlign="center" mb={3}>
+        <Paper elevation={3} sx={{ p: 4, borderRadius: 2, background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)' }}>
+          <Box textAlign="left" mb={3}>
             <Settings sx={{ fontSize: 48, color: '#fc4a1a', mb: 1 }} />
-            <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            <Typography variant="h4" component="h1" fontWeight="800" gutterBottom sx={{ letterSpacing: '-0.02em' }}>
               MediCareAI
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
@@ -132,7 +144,7 @@ const AdminLoginPage: React.FC = () => {
             <Card sx={{ mt: 3, mb: 2, bgcolor: '#fff5f0', borderLeft: '4px solid #fc4a1a' }}>
               <CardContent sx={{ py: 2 }}>
                 <Typography variant="h6" sx={{ color: '#fc4a1a', mb: 1, fontWeight: 600 }}>
-                  🔐 管理员专属平台
+                  管理员专属平台
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.6 }}>
                   管理平台是 MediCareAI 系统的核心控制中心，管理员肩负着系统安全、
@@ -176,6 +188,9 @@ const AdminLoginPage: React.FC = () => {
                     />
                   </ListItem>
                 </List>
+                <Typography variant="caption" sx={{ color: '#fc4a1a', display: 'block', mt: 1.5, fontWeight: 600 }}>
+                  长安大学 Chang'an University
+                </Typography>
               </CardContent>
             </Card>
           </Box>

@@ -293,13 +293,13 @@ const Profile: React.FC = () => {
       <AppBar position="static" elevation={4}>
         <Toolbar sx={{ backgroundColor: 'white', color: '#333' }}>
           <Box sx={{ display: 'flex', alignItems: 'center', flexGrow: 1 }}>
-            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#667eea' }} />
-            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+            <HospitalIcon sx={{ fontSize: 32, mr: 2, color: '#2d6a4f' }} />
+            <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
               MediCareAI
             </Typography>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Avatar sx={{ bgcolor: '#667eea' }}>
+            <Avatar sx={{ bgcolor: '#2d6a4f' }}>
               {user?.full_name?.charAt(0) || '患'}
             </Avatar>
             <Typography variant="body1">

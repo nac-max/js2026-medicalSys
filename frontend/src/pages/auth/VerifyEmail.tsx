@@ -57,11 +57,20 @@ const VerifyEmailPage: React.FC = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #0d1b2a 0%, #1b263b 50%, #415a77 100%)',
+        position: 'relative',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         py: 3,
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0, left: 0, right: 0, bottom: 0,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
+          opacity: 0.5,
+          pointerEvents: 'none',
+        },
       }}
     >
       <Container maxWidth="sm">
@@ -70,16 +79,15 @@ const VerifyEmailPage: React.FC = () => {
           sx={{
             borderRadius: 4,
             padding: 4,
-            textAlign: 'center',
           }}
         >
-          <Box sx={{ mb: 4 }}>
-            <LocalHospital sx={{ fontSize: 64, color: '#667eea', mb: 2 }} />
-            <Typography variant="h4" component="h1" fontWeight="bold" color="primary">
+          <Box sx={{ textAlign: 'left', mb: 4 }}>
+            <LocalHospital sx={{ fontSize: 56, color: '#2d6a4f', mb: 2 }} />
+            <Typography variant="h4" component="h1" fontWeight="800" color="text.primary" sx={{ letterSpacing: '-0.02em' }}>
               MediCareAI
             </Typography>
             <Typography variant="subtitle1" color="text.secondary">
-              智能疾病管理系统
+              智能疾病管理系统 — 邮箱验证
             </Typography>
           </Box>
 
@@ -108,7 +116,7 @@ const VerifyEmailPage: React.FC = () => {
                 onClick={handleGoToLogin}
                 sx={{
                   py: 1.5,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                 }}
               >
                 前往登录
@@ -137,7 +145,7 @@ const VerifyEmailPage: React.FC = () => {
                   fullWidth
                   onClick={handleGoToLogin}
                   sx={{
-                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                   }}
                 >
                   前往登录

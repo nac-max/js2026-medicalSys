@@ -180,14 +180,14 @@ const Dashboard: React.FC = () => {
               }}
               onClick={() => navigate('/patient/symptom-submit')}
             >
-              <EditNoteIcon sx={{ fontSize: 64, mb: 2, color: '#667eea' }} />
+              <EditNoteIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
               <Typography variant="h5" gutterBottom fontWeight="bold">
                 症状提交
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
                 描述您的症状，AI 将基于 MinerU 和先进的大语言模型为您进行智能诊断分析
               </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #667eea, #764ba2)' }}>
+              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
                 开始诊断
               </Button>
             </Card>
@@ -210,14 +210,14 @@ const Dashboard: React.FC = () => {
               }}
               onClick={() => navigate('/patient/medical-records')}
             >
-              <DescriptionIcon sx={{ fontSize: 64, mb: 2, color: '#667eea' }} />
+              <DescriptionIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
               <Typography variant="h5" gutterBottom fontWeight="bold">
                 诊疗记录
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
                 查看您的历史诊疗记录、诊断历史和健康状况变化
               </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #667eea, #764ba2)' }}>
+              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
                 查看记录
               </Button>
             </Card>
@@ -240,14 +240,14 @@ const Dashboard: React.FC = () => {
               }}
               onClick={() => navigate('/patient/profile')}
             >
-              <PersonIcon sx={{ fontSize: 64, mb: 2, color: '#667eea' }} />
+              <PersonIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
               <Typography variant="h5" gutterBottom fontWeight="bold">
                 个人中心
               </Typography>
               <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
                 管理您的个人信息、基本资料、联系信息和健康档案
               </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #667eea, #764ba2)' }}>
+              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
                 编辑信息
               </Button>
             </Card>
@@ -263,8 +263,8 @@ const Dashboard: React.FC = () => {
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
               <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <GroupIcon sx={{ fontSize: 24, mb: 1, color: '#667eea' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+                <GroupIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
                   {loading ? <CircularProgress size={24} /> : stats.totalPatients}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -274,8 +274,8 @@ const Dashboard: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <HospitalIcon sx={{ fontSize: 24, mb: 1, color: '#667eea' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+                <HospitalIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
                   {loading ? <CircularProgress size={24} /> : stats.managedPatients}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -285,8 +285,8 @@ const Dashboard: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <CalendarTodayIcon sx={{ fontSize: 24, mb: 1, color: '#667eea' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+                <CalendarTodayIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
+                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
                   {stats.todayDate}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -296,8 +296,8 @@ const Dashboard: React.FC = () => {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <StarIcon sx={{ fontSize: 24, mb: 1, color: '#667eea' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#667eea' }}>
+                <StarIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
+                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
                   AI 智能诊断
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
@@ -315,8 +315,8 @@ const Dashboard: React.FC = () => {
             <br />
             本系统仅供参考，请以医生的实际诊断为准。
             <br />
-            <Typography component="span" color="#667eea" sx={{ mt: 1, display: 'inline-block' }}>
-              作者：苏业钦 | License: MIT
+            <Typography component="span" color="#2d6a4f" sx={{ mt: 1, display: 'inline-block' }}>
+              长安大学 Chang'an University | License: MIT
             </Typography>
           </Typography>
         </Box>

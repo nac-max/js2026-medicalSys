@@ -125,7 +125,7 @@ const CompleteProfilePage: React.FC = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
         py: 4,
       }}
     >
@@ -175,7 +175,7 @@ const CompleteProfilePage: React.FC = () => {
                 sx={{
                   py: 1.5,
                   px: 4,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                 }}
               >
                 {isLoading ? <CircularProgress size={24} /> : '发送验证邮件'}
@@ -233,7 +233,7 @@ const CompleteProfilePage: React.FC = () => {
                 disabled={isLoading}
                 sx={{
                   py: 1.5,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                 }}
               >
                 {isLoading ? <CircularProgress size={24} /> : '保存并继续'}
@@ -257,7 +257,7 @@ const CompleteProfilePage: React.FC = () => {
                 sx={{
                   py: 1.5,
                   px: 4,
-                  background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
                 }}
               >
                 进入系统

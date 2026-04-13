@@ -356,7 +356,7 @@ const Dashboard: React.FC = () => {
           sx={{
             mb: 3,
             p: 3,
-            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
             color: 'white',
             borderRadius: 2,
           }}

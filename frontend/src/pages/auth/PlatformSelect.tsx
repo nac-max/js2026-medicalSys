@@ -7,22 +7,19 @@ import {
   CardContent,
   Button,
   Grid,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Fade,
+  Chip,
+  alpha,
 } from '@mui/material';
 import {
   Person,
   LocalHospital,
   Settings,
-  CheckCircle,
-  Login as LoginIcon,
   ArrowForward,
+  TrendingUp,
+  Security,
+  Speed,
 } from '@mui/icons-material';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 
 interface Platform {
   id: string;
@@ -30,56 +27,41 @@ interface Platform {
   description: string;
   icon: React.ReactNode;
   features: string[];
-  gradient: string;
-  hoverColor: string;
+  color: string;
+  accentColor: string;
 }
 
 const PlatformSelect: React.FC = () => {
-  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const platforms: Platform[] = [
     {
       id: 'patient',
       title: '患者平台',
       description: '提交症状、获取AI诊断建议、管理您的健康档案',
-      icon: <Person sx={{ fontSize: 64 }} />,
-      features: [
-        '智能症状分析与诊断',
-        '诊疗记录管理',
-        '文档上传与解析',
-        '分享给指定医生',
-      ],
-      gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      hoverColor: '#5a6fd8',
+      icon: <Person sx={{ fontSize: 48 }} />,
+      features: ['智能症状分析', '诊疗记录管理', '文档上传解析'],
+      color: '#ff6b6b',
+      accentColor: '#ee5a6f',
     },
     {
       id: 'doctor',
       title: '医生平台',
       description: '浏览专业领域病例、科研数据导出、患者@病例管理',
-      icon: <LocalHospital sx={{ fontSize: 64 }} />,
-      features: [
-        '浏览匿名化病例',
-        '查看@我的病例',
-        '科研数据检索与导出',
-        '双盲数据收集',
-      ],
-      gradient: 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)',
-      hoverColor: '#0f887c',
+      icon: <LocalHospital sx={{ fontSize: 48 }} />,
+      features: ['匿名化病例', '@我的病例', '科研数据导出'],
+      color: '#4ecdc4',
+      accentColor: '#45b7af',
     },
     {
       id: 'admin',
       title: '管理平台',
       description: '系统监控、AI模型配置、知识库管理、医生认证审核',
-      icon: <Settings sx={{ fontSize: 64 }} />,
-      features: [
-        '系统资源监控',
-        'AI模型配置与管理',
-        '知识库文档管理',
-        '医生资质审核',
-      ],
-      gradient: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
-      hoverColor: '#e5410a',
+      icon: <Settings sx={{ fontSize: 48 }} />,
+      features: ['系统监控', 'AI模型配置', '医生认证审核'],
+      color: '#f7b731',
+      accentColor: '#ffa502',
     },
   ];
 
@@ -91,127 +73,172 @@ const PlatformSelect: React.FC = () => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        py: 4,
+        background: 'linear-gradient(165deg, #0a0e27 0%, #1a1f3a 40%, #2d1b3d 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: '-50%',
+          right: '-20%',
+          width: '80%',
+          height: '80%',
+          background: 'radial-gradient(circle, rgba(255,107,107,0.15) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(80px)',
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          bottom: '-30%',
+          left: '-10%',
+          width: '60%',
+          height: '60%',
+          background: 'radial-gradient(circle, rgba(78,205,196,0.2) 0%, transparent 70%)',
+          borderRadius: '50%',
+          filter: 'blur(60px)',
+        },
       }}
     >
-      <Container maxWidth="lg">
-        <Box sx={{ textAlign: 'center', mb: 8 }}>
+      <Container maxWidth="xl" sx={{ position: 'relative', zIndex: 1, py: { xs: 4, md: 8 } }}>
+        {/* Header */}
+        <Box sx={{ mb: 8, ml: { xs: 2, md: 6 } }}>
           <Typography
-            variant="h2"
+            variant="h1"
             component="h1"
-            fontWeight="bold"
-            color="white"
-            gutterBottom
             sx={{
-              fontSize: { xs: '2.5rem', md: '3.5rem' },
-              animation: 'float 3s ease-in-out infinite',
-              '@keyframes float': {
-                '0%, 100%': { transform: 'translateY(0px)' },
-                '50%': { transform: 'translateY(-10px)' },
-              },
+              fontSize: { xs: '3rem', md: '5.5rem' },
+              fontWeight: 900,
+              background: 'linear-gradient(135deg, #fff 0%, #4ecdc4 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              letterSpacing: '-0.04em',
+              mb: 2,
+              textShadow: '0 0 40px rgba(78,205,196,0.3)',
             }}
           >
-            🏥 MediCareAI
+            MediCareAI
           </Typography>
           <Typography
-            variant="h5"
-            color="rgba(255, 255, 255, 0.9)"
-            paragraph
-            sx={{ maxWidth: 600, mx: 'auto' }}
+            variant="h4"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.9)',
+              fontWeight: 300,
+              letterSpacing: '0.05em',
+              mb: 1,
+            }}
           >
-            智能疾病管理系统 - 选择您的登录平台
-            <br />
+            智能疾病管理系统
+          </Typography>
+          <Typography
+            variant="body1"
+            sx={{
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontWeight: 300,
+              fontStyle: 'italic',
+            }}
+          >
             Intelligent Disease Management System
           </Typography>
         </Box>
 
-        <Grid container spacing={4} justifyContent="center">
+        {/* Platform Cards */}
+        <Grid container spacing={4} sx={{ px: { xs: 2, md: 6 } }}>
           {platforms.map((platform, index) => (
             <Grid item xs={12} md={4} key={platform.id}>
-              <Fade
-                in={visible}
-                timeout={1000}
-                style={{
-                  transitionDelay: visible ? `${index * 200}ms` : '0ms',
+              <Card
+                onMouseEnter={() => setHoveredCard(platform.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                sx={{
+                  height: '100%',
+                  background: 'rgba(255, 255, 255, 0.05)',
+                  backdropFilter: 'blur(20px)',
+                  border: `2px solid ${alpha(platform.color, 0.3)}`,
+                  borderRadius: 4,
+                  transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                  transform: hoveredCard === platform.id ? 'translateY(-12px) scale(1.02)' : 'translateY(0)',
+                  boxShadow: hoveredCard === platform.id
+                    ? `0 20px 60px ${alpha(platform.color, 0.4)}`
+                    : '0 8px 32px rgba(0,0,0,0.3)',
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '4px',
+                    background: `linear-gradient(90deg, ${platform.color}, ${platform.accentColor})`,
+                    opacity: hoveredCard === platform.id ? 1 : 0.6,
+                    transition: 'opacity 0.3s',
+                  },
                 }}
               >
-                <Card
-                  sx={{
-                    height: '100%',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-5px)',
-                      boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-                    },
-                    position: 'relative',
-                    overflow: 'visible',
-                    '&::before': {
-                      content: '""',
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: 5,
-                      background: platform.gradient,
-                      borderTopLeftRadius: 8,
-                      borderTopRightRadius: 8,
-                    },
-                  }}
-                >
-                  <CardContent sx={{ p: 4 }}>
-                    <Box sx={{ textAlign: 'center', mb: 3 }}>
-                      <Box
+                <CardContent sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column' }}>
+                  {/* Icon */}
+                  <Box
+                    sx={{
+                      width: 80,
+                      height: 80,
+                      borderRadius: 3,
+                      background: `linear-gradient(135deg, ${alpha(platform.color, 0.2)}, ${alpha(platform.accentColor, 0.1)})`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      mb: 3,
+                      color: platform.color,
+                      transition: 'transform 0.3s',
+                      transform: hoveredCard === platform.id ? 'rotate(-5deg) scale(1.1)' : 'rotate(0)',
+                    }}
+                  >
+                    {platform.icon}
+                  </Box>
+
+                  {/* Title */}
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      color: 'white',
+                      fontWeight: 700,
+                      mb: 2,
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
+                    {platform.title}
+                  </Typography>
+
+                  {/* Description */}
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: 'rgba(255, 255, 255, 0.7)',
+                      mb: 3,
+                      lineHeight: 1.7,
+                      flex: 1,
+                    }}
+                  >
+                    {platform.description}
+                  </Typography>
+
+                  {/* Features */}
+                  <Box sx={{ mb: 3, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {platform.features.map((feature, idx) => (
+                      <Chip
+                        key={idx}
+                        label={feature}
+                        size="small"
                         sx={{
-                          color: platform.hoverColor,
-                          mb: 2,
+                          bgcolor: alpha(platform.color, 0.15),
+                          color: platform.color,
+                          border: `1px solid ${alpha(platform.color, 0.3)}`,
+                          fontWeight: 500,
+                          fontSize: '0.75rem',
                         }}
-                      >
-                        {platform.icon}
-                      </Box>
-                      <Typography
-                        variant="h4"
-                        component="h2"
-                        fontWeight="bold"
-                        color="text.primary"
-                        gutterBottom
-                      >
-                        {platform.title}
-                      </Typography>
-                      <Typography
-                        variant="body1"
-                        color="text.secondary"
-                        paragraph
-                      >
-                        {platform.description}
-                      </Typography>
-                    </Box>
+                      />
+                    ))}
+                  </Box>
 
-                    <List sx={{ mb: 2 }}>
-                      {platform.features.map((feature, idx) => (
-                        <ListItem key={idx} sx={{ px: 0, py: 0.5 }}>
-                          <ListItemIcon sx={{ minWidth: 32 }}>
-                            <CheckCircle
-                              sx={{
-                                color: platform.hoverColor,
-                                fontSize: 20,
-                              }}
-                            />
-                          </ListItemIcon>
-                          <ListItemText
-                            primary={feature}
-                            primaryTypographyProps={{
-                              variant: 'body2',
-                              color: 'text.secondary',
-                            }}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-
+                  {/* Buttons */}
+                  <Box sx={{ display: 'flex', gap: 1 }}>
                     <Button
                       component={RouterLink}
                       to={
@@ -223,73 +250,110 @@ const PlatformSelect: React.FC = () => {
                       }
                       fullWidth
                       variant="contained"
-                      size="large"
                       endIcon={<ArrowForward />}
                       sx={{
                         py: 1.5,
-                        background: platform.gradient,
+                        background: `linear-gradient(135deg, ${platform.color}, ${platform.accentColor})`,
+                        color: 'white',
+                        fontWeight: 600,
+                        borderRadius: 2,
+                        textTransform: 'none',
+                        fontSize: '1rem',
                         '&:hover': {
-                          background: platform.hoverColor,
+                          background: `linear-gradient(135deg, ${platform.accentColor}, ${platform.color})`,
                           transform: 'scale(1.02)',
                         },
                       }}
                     >
                       登录
                     </Button>
-
-                    {platform.id === 'patient' && (
+                    {(platform.id === 'patient' || platform.id === 'doctor') && (
                       <Button
                         component={RouterLink}
-                        to="/register"
-                        fullWidth
-                        variant="text"
-                        size="small"
-                        sx={{ mt: 1 }}
+                        to={platform.id === 'patient' ? '/register' : '/doctor-register'}
+                        variant="outlined"
+                        sx={{
+                          py: 1.5,
+                          px: 2,
+                          borderColor: alpha(platform.color, 0.5),
+                          color: platform.color,
+                          borderRadius: 2,
+                          textTransform: 'none',
+                          fontWeight: 600,
+                          '&:hover': {
+                            borderColor: platform.color,
+                            bgcolor: alpha(platform.color, 0.1),
+                          },
+                        }}
                       >
-                        注册患者账号
+                        注册
                       </Button>
                     )}
-
-                    {platform.id === 'doctor' && (
-                      <Button
-                        component={RouterLink}
-                        to="/doctor-register"
-                        fullWidth
-                        variant="text"
-                        size="small"
-                        sx={{ mt: 1 }}
-                      >
-                        注册医生账号
-                      </Button>
-                    )}
-                  </CardContent>
-                </Card>
-              </Fade>
+                  </Box>
+                </CardContent>
+              </Card>
             </Grid>
           ))}
         </Grid>
 
-        <Paper
-          elevation={0}
+        {/* Features Section */}
+        <Box sx={{ mt: 12, px: { xs: 2, md: 6 } }}>
+          <Grid container spacing={4}>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: 'left' }}>
+                <TrendingUp sx={{ fontSize: 40, color: '#4ecdc4', mb: 2 }} />
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
+                  AI驱动诊断
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  基于MinerU和大语言模型的智能诊断系统
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: 'left' }}>
+                <Security sx={{ fontSize: 40, color: '#ff6b6b', mb: 2 }} />
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
+                  数据安全保护
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  符合医疗数据隐私保护标准的加密存储
+                </Typography>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Box sx={{ textAlign: 'left' }}>
+                <Speed sx={{ fontSize: 40, color: '#f7b731', mb: 2 }} />
+                <Typography variant="h6" sx={{ color: 'white', fontWeight: 600, mb: 1 }}>
+                  高效协作
+                </Typography>
+                <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.6)' }}>
+                  患者、医生、管理员三端协同工作流程
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
+        </Box>
+
+        {/* Footer */}
+        <Box
           sx={{
-            mt: 4,
+            mt: 12,
             py: 4,
-            background: 'rgba(255, 255, 255, 0.1)',
-            backdropFilter: 'blur(10px)',
-            textAlign: 'center',
+            px: { xs: 2, md: 6 },
+            borderTop: '1px solid rgba(255,255,255,0.1)',
           }}
         >
-          <Typography variant="body2" color="rgba(255, 255, 255, 0.8)">
-            MediCareAI © 2025 | 作者：苏业钦 | MIT License
+          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.5)', mb: 1 }}>
+            MediCareAI © 2025
           </Typography>
-          <Typography
-            variant="body2"
-            color="rgba(255, 255, 255, 0.8)"
-            sx={{ mt: 1 }}
-          >
-            🏥 用AI赋能医疗健康，让诊疗更智能、更便捷
+          <Typography variant="body2" sx={{ color: 'rgba(255,255,255,0.7)', fontWeight: 500 }}>
+            长安大学 Chang'an University
           </Typography>
-        </Paper>
+          <Typography variant="caption" sx={{ color: 'rgba(255,255,255,0.4)', display: 'block', mt: 1 }}>
+            MIT License
+          </Typography>
+        </Box>
       </Container>
     </Box>
   );

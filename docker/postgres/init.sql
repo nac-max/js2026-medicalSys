@@ -12,7 +12,7 @@ WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'medicareai')\gexec
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT FROM pg_catalog.pg_roles WHERE rolname = 'medicare_user') THEN
-        CREATE USER medicare_user WITH PASSWORD 'your_secure_postgres_password';
+        CREATE USER medicare_user WITH PASSWORD 'xsd62528';
     END IF;
 END
 $$;

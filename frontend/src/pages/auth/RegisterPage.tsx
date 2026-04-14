@@ -32,13 +32,30 @@ import {
   CalendarToday,
   PersonOutline,
   LocalHospital,
+  ArrowBack,
+  Favorite,
+  HealthAndSafety,
 } from '@mui/icons-material';
 import { useForm, Controller } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuthContext } from '../../contexts/AuthContext';
 import { CONFIG } from '../../lib/config';
 import { AddressSelect } from '../../components/common/AddressSelect';
+import { BackgroundBeams } from '../../components/ui/background-beams';
 import type { RegisterData } from '../../types';
+
+const textFieldSx = {
+  '& .MuiOutlinedInput-root': {
+    color: '#171717',
+    borderRadius: 0,
+    '& fieldset': { borderColor: '#e5e5e5', borderWidth: 2 },
+    '&:hover fieldset': { borderColor: '#0066FF' },
+    '&.Mui-focused fieldset': { borderColor: '#0066FF', borderWidth: 2 },
+  },
+  '& .MuiInputLabel-root': { color: '#737373', fontWeight: 600 },
+  '& .MuiInputLabel-root.Mui-focused': { color: '#0066FF', fontWeight: 600 },
+};
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -147,46 +164,123 @@ const RegisterPage: React.FC = () => {
   };
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        py: 3,
-      }}
-    >
-      <Container maxWidth="md">
-        <Paper
-          elevation={20}
-          sx={{
-            borderRadius: 4,
-            padding: 4,
-            maxWidth: 600,
-            margin: '0 auto',
-          }}
+    <div className="min-h-screen bg-neutral-50 flex flex-col relative overflow-hidden">
+      <BackgroundBeams />
+
+      {/* Header */}
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="relative z-10 border-b-2 border-neutral-200 bg-white px-6 md:px-12 py-4 flex items-center justify-between"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-8 bg-primary-500" />
+          <span className="font-bold text-lg text-neutral-800 tracking-wide">
+            MEDICARE_AI
+          </span>
+        </div>
+        <div className="text-xs text-neutral-400 tracking-widest">
+          PATIENT REGISTRATION
+        </div>
+      </motion.header>
+
+      <Container maxWidth="md" sx={{ position: 'relative', zIndex: 10, py: 4 }}>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
         >
-          <Box sx={{ textAlign: 'center', mb: 4 }}>
-            <LocalHospital sx={{ fontSize: 64, color: '#2d6a4f', mb: 2 }} />
-            <Typography variant="h4" component="h1" fontWeight="bold" color="primary" gutterBottom>
-              <PersonOutline sx={{ verticalAlign: 'middle', mr: 1 }} />
-              注册账户
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              加入 MediCareAI，开始智能诊疗之旅
-            </Typography>
-          </Box>
+          <Paper
+            elevation={0}
+            sx={{
+              borderRadius: 0,
+              padding: 4,
+              border: '2px solid #e5e5e5',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.05)',
+            }}
+          >
+            <Button
+              component="button"
+              onClick={() => navigate('/')}
+              startIcon={<ArrowBack />}
+              sx={{
+                mb: 3,
+                color: '#737373',
+                textTransform: 'none',
+                border: '2px solid #e5e5e5',
+                px: 2,
+                py: 1,
+                '&:hover': {
+                  color: '#0066FF',
+                  borderColor: '#0066FF',
+                  background: '#F0F7FF',
+                },
+              }}
+            >
+              返回首页
+            </Button>
 
-          {(authError || submitError) && (
-            <Alert severity="error" sx={{ mb: 3 }} onClose={() => { clearError(); setSubmitError(''); }}>
-              {submitError || authError}
-            </Alert>
-          )}
+            <Box sx={{ mb: 4 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <LocalHospital sx={{ fontSize: 40, color: '#0066FF' }} />
+                <Box>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontWeight: 800,
+                      color: '#171717',
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
+                    患者注册
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                    PATIENT REGISTRATION
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Favorite sx={{ fontSize: 16, color: '#0066FF' }} />
+                  <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                    安全可靠
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <HealthAndSafety sx={{ fontSize: 16, color: '#0066FF' }} />
+                  <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                    隐私保护
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
 
-          {successMessage && (
-            <Alert severity="success" sx={{ mb: 3 }}>
-              {successMessage}
+            {(authError || submitError) && (
+              <Alert
+                severity="error"
+                sx={{
+                  mb: 3,
+                  border: '2px solid #DC2626',
+                  borderRadius: 0,
+                  background: '#FEF2F2',
+                }}
+                onClose={() => { clearError(); setSubmitError(''); }}
+              >
+                {submitError || authError}
+              </Alert>
+            )}
+
+            {successMessage && (
+              <Alert
+                severity="success"
+                sx={{
+                  mb: 3,
+                  border: '2px solid #00A86B',
+                  borderRadius: 0,
+                  background: '#F0FDF4',
+                }}
+              >
+                {successMessage}
             </Alert>
           )}
 
@@ -207,12 +301,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Person color="action" />
+                            <Person sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.full_name}
                       helperText={errors.full_name?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -241,12 +336,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Email color="action" />
+                            <Email sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.email}
                       helperText={errors.email?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -275,7 +371,7 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Lock color="action" />
+                            <Lock sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                         endAdornment: (
@@ -286,13 +382,14 @@ const RegisterPage: React.FC = () => {
                               edge="end"
                               disabled={isSubmitting || isLoading}
                             >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                              {showPassword ? <VisibilityOff sx={{ color: '#0066FF' }} /> : <Visibility sx={{ color: '#0066FF' }} />}
                             </IconButton>
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.password}
                       helperText={errors.password?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -315,7 +412,7 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Lock color="action" />
+                            <Lock sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                         endAdornment: (
@@ -326,13 +423,14 @@ const RegisterPage: React.FC = () => {
                               edge="end"
                               disabled={isSubmitting || isLoading}
                             >
-                              {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                              {showConfirmPassword ? <VisibilityOff sx={{ color: '#0066FF' }} /> : <Visibility sx={{ color: '#0066FF' }} />}
                             </IconButton>
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.confirmPassword}
                       helperText={errors.confirmPassword?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -354,12 +452,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <CalendarToday color="action" />
+                            <CalendarToday sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.date_of_birth}
                       helperText={errors.date_of_birth?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -408,12 +507,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Phone color="action" />
+                            <Phone sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.phone}
                       helperText={errors.phone?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -461,12 +561,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Person color="action" />
+                            <Person sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.emergency_contact_name}
                       helperText={errors.emergency_contact_name?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -488,12 +589,13 @@ const RegisterPage: React.FC = () => {
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">
-                            <Phone color="action" />
+                            <Phone sx={{ color: '#0066FF' }} />
                           </InputAdornment>
                         ),
                       }}
                       error={!!errors.emergency_contact_phone}
                       helperText={errors.emergency_contact_phone?.message}
+                      sx={textFieldSx}
                     />
                   )}
                 />
@@ -550,9 +652,24 @@ const RegisterPage: React.FC = () => {
               disabled={isSubmitting || isLoading}
               sx={{
                 py: 1.5,
-                background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
+                background: '#0066FF',
+                color: 'white',
+                fontWeight: 700,
+                fontSize: '1rem',
+                borderRadius: 0,
+                border: '2px solid #0066FF',
+                textTransform: 'none',
+                boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%)',
+                  background: '#0052CC',
+                  borderColor: '#0052CC',
+                  transform: 'translate(2px, 2px)',
+                  boxShadow: '2px 2px 0 rgba(0,0,0,0.1)',
+                },
+                '&:disabled': {
+                  background: '#e5e5e5',
+                  color: '#a3a3a3',
+                  borderColor: '#e5e5e5',
                 },
               }}
             >
@@ -565,15 +682,24 @@ const RegisterPage: React.FC = () => {
           </Box>
 
           <Box sx={{ textAlign: 'center', mt: 3 }}>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="body2" sx={{ color: '#737373' }}>
               已有账号？{' '}
-              <Link component="button" variant="body2" onClick={() => navigate('/login')}>
+              <Link
+                component="button"
+                variant="body2"
+                onClick={() => navigate('/login')}
+                sx={{
+                  color: '#0066FF',
+                  textDecoration: 'none',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  '&:hover': { textDecoration: 'underline' },
+                }}
+              >
                 立即登录
               </Link>
             </Typography>
           </Box>
-
-
 
           <Dialog open={termsDialogOpen} onClose={() => setTermsDialogOpen(false)} maxWidth="md" fullWidth scroll="paper">
             <DialogTitle sx={{ bgcolor: 'primary.main', color: 'white' }}>用户服务协议</DialogTitle>
@@ -942,9 +1068,10 @@ const RegisterPage: React.FC = () => {
               <Button onClick={() => setPrivacyDialogOpen(false)} variant="contained">我已阅读并理解</Button>
             </DialogActions>
           </Dialog>
-        </Paper>
+          </Paper>
+        </motion.div>
       </Container>
-    </Box>
+    </div>
   );
 };
 

@@ -6,12 +6,15 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-COPY package.json ./
-RUN npm install && npm cache clean --force
+# 复制 package 文件
+COPY package.json package-lock.json* ./
 
+# 安装依赖（利用 Docker 缓存层）
+RUN npm ci --legacy-peer-deps && npm cache clean --force
+
+# 复制源代码
 COPY . .
 
-# 构建生产环境静态文件
 # 构建生产环境静态文件（跳过类型检查）
 RUN npx vite build
 

@@ -30,3 +30,13 @@
 - 占位图：使用Picsum Photos（https://picsum.photos）
 - 真实图片：使用Pexels搜索（https://pexels.com）
 - 插画：使用unDraw（https://undraw.io）
+
+### Components Suggestion
+You cloud use  `Aceternity UI` to design pages, here is the method of usage: https://ui.aceternity.com/components
+At the same time, I also give you more UI components for designing:
+- Magic UI
+- DaisyUI
+- Brutalist UI
+- Glass UI
+- Radix UI
+- Mantine

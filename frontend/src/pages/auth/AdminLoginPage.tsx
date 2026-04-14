@@ -2,40 +2,32 @@ import React, { useState, useEffect } from 'react';
 import {
   Box,
   Container,
-  Paper,
   Typography,
   TextField,
   Button,
   Alert,
   CircularProgress,
-  Link,
   Divider,
   InputAdornment,
   IconButton,
   FormControlLabel,
   Checkbox,
-  Card,
-  CardContent,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
 } from '@mui/material';
 import {
   Visibility,
   VisibilityOff,
   Email,
   Lock,
-  Settings,
   ArrowBack,
+  Shield,
   Security,
-  Computer,
-  School,
-  VerifiedUser,
+  AdminPanelSettings,
 } from '@mui/icons-material';
 import { useForm } from 'react-hook-form';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { useAuthContext } from '../../contexts/AuthContext';
+import { BackgroundBeams } from '../../components/ui/background-beams';
 import type { LoginCredentials } from '../../types';
 
 const AdminLoginPage: React.FC = () => {
@@ -82,9 +74,7 @@ const AdminLoginPage: React.FC = () => {
       } else {
         localStorage.removeItem('medicare_admin_remember_email');
       }
-      
       await login(data);
-      
       if (user?.role !== 'admin') {
         throw new Error('此账号不是管理员账号');
       }
@@ -102,209 +92,255 @@ const AdminLoginPage: React.FC = () => {
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
-        <CircularProgress />
+        <CircularProgress sx={{ color: '#CC5500' }} />
       </Box>
     );
   }
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        py: 4,
-        '&::before': {
-          content: '""',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E")`,
-          opacity: 0.5,
-          pointerEvents: 'none',
-        },
-      }}
-    >
-      <Container maxWidth="sm">
-        <Paper elevation={3} sx={{ p: 4, borderRadius: 2, background: 'rgba(255, 255, 255, 0.98)', backdropFilter: 'blur(10px)' }}>
-          <Box textAlign="left" mb={3}>
-            <Settings sx={{ fontSize: 48, color: '#fc4a1a', mb: 1 }} />
-            <Typography variant="h4" component="h1" fontWeight="800" gutterBottom sx={{ letterSpacing: '-0.02em' }}>
-              MediCareAI
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              管理员登录
-            </Typography>
+    <div className="min-h-screen bg-neutral-50 flex flex-col relative overflow-hidden">
+      <BackgroundBeams />
 
-            <Card sx={{ mt: 3, mb: 2, bgcolor: '#fff5f0', borderLeft: '4px solid #fc4a1a' }}>
-              <CardContent sx={{ py: 2 }}>
-                <Typography variant="h6" sx={{ color: '#fc4a1a', mb: 1, fontWeight: 600 }}>
-                  管理员专属平台
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2, lineHeight: 1.6 }}>
-                  管理平台是 MediCareAI 系统的核心控制中心，管理员肩负着系统安全、
-                  数据保护和平台运维的重要职责。
-                </Typography>
-                <List dense sx={{ py: 0 }}>
-                  <ListItem sx={{ py: 0.5 }}>
-                    <ListItemIcon sx={{ minWidth: 32 }}>
-                      <Security sx={{ color: '#fc4a1a', fontSize: 20 }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="系统安全监控与审计日志管理"
-                      primaryTypographyProps={{ variant: 'body2' }}
-                    />
-                  </ListItem>
-                  <ListItem sx={{ py: 0.5 }}>
-                    <ListItemIcon sx={{ minWidth: 32 }}>
-                      <Computer sx={{ color: '#fc4a1a', fontSize: 20 }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="AI 模型配置与性能调优"
-                      primaryTypographyProps={{ variant: 'body2' }}
-                    />
-                  </ListItem>
-                  <ListItem sx={{ py: 0.5 }}>
-                    <ListItemIcon sx={{ minWidth: 32 }}>
-                      <School sx={{ color: '#fc4a1a', fontSize: 20 }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="医学知识库管理与文档审核"
-                      primaryTypographyProps={{ variant: 'body2' }}
-                    />
-                  </ListItem>
-                  <ListItem sx={{ py: 0.5 }}>
-                    <ListItemIcon sx={{ minWidth: 32 }}>
-                      <VerifiedUser sx={{ color: '#fc4a1a', fontSize: 20 }} />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary="医生资质认证审核与权限管理"
-                      primaryTypographyProps={{ variant: 'body2' }}
-                    />
-                  </ListItem>
-                </List>
-                <Typography variant="caption" sx={{ color: '#fc4a1a', display: 'block', mt: 1.5, fontWeight: 600 }}>
-                  长安大学 Chang'an University
-                </Typography>
-              </CardContent>
-            </Card>
-          </Box>
+      {/* Header */}
+      <motion.header
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="relative z-10 border-b-2 border-neutral-200 bg-white px-6 md:px-12 py-4 flex items-center justify-between"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-8" style={{ background: '#CC5500' }} />
+          <span className="font-bold text-lg text-neutral-800 tracking-wide">
+            MEDICARE_AI
+          </span>
+        </div>
+        <div className="text-xs text-neutral-400 tracking-widest">
+          ADMIN LOGIN
+        </div>
+      </motion.header>
 
-          {error && (
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {error}
-            </Alert>
-          )}
-
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <TextField
-              fullWidth
-              label="邮箱地址"
-              variant="outlined"
-              margin="normal"
-              {...register('email', { 
-                required: '请输入邮箱地址',
-                pattern: {
-                  value: /^\S+@\S+$/i,
-                  message: '请输入有效的邮箱地址'
-                }
-              })}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Email color="action" />
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <TextField
-              fullWidth
-              label="密码"
-              type={showPassword ? 'text' : 'password'}
-              variant="outlined"
-              margin="normal"
-              {...register('password', { 
-                required: '请输入密码',
-                minLength: {
-                  value: 6,
-                  message: '密码至少需要6个字符'
-                }
-              })}
-              error={!!errors.password}
-              helperText={errors.password?.message}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Lock color="action" />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton onClick={handleTogglePassword} edge="end">
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                />
-              }
-              label="记住我"
-              sx={{ mt: 1 }}
-            />
-
+      <Container maxWidth="sm" sx={{ position: 'relative', zIndex: 10, py: 8, flex: 1, display: 'flex', alignItems: 'center' }}>
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+          style={{ width: '100%' }}
+        >
+          <Box
+            sx={{
+              background: 'white',
+              border: '2px solid #e5e5e5',
+              borderRadius: 0,
+              p: 4,
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.05)',
+            }}
+          >
             <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              size="large"
-              disabled={isSubmitting}
+              component="button"
+              onClick={() => navigate('/platform-select')}
+              startIcon={<ArrowBack />}
               sx={{
-                mt: 2,
-                mb: 2,
-                background: 'linear-gradient(135deg, #fc4a1a 0%, #f7b733 100%)',
+                mb: 3,
+                color: '#737373',
+                textTransform: 'none',
+                border: '2px solid #e5e5e5',
+                px: 2,
+                py: 1,
                 '&:hover': {
-                  background: 'linear-gradient(135deg, #e5410a 0%, #e0a52f 100%)',
+                  color: '#CC5500',
+                  borderColor: '#CC5500',
+                  background: '#FFF8F0',
                 },
               }}
             >
-              {isSubmitting ? <CircularProgress size={24} /> : '登录'}
-            </Button>
-          </form>
-
-          <Divider sx={{ my: 2 }} />
-
-          <Box textAlign="center">
-            <Typography variant="body2" color="text.secondary">
-              管理员账号由系统预设，不提供自助注册
-            </Typography>
-            
-            <Button
-              component={RouterLink}
-              to="/"
-              startIcon={<ArrowBack />}
-              sx={{ mt: 2 }}
-            >
               返回平台选择
             </Button>
+
+            <Box sx={{ mb: 4 }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                <AdminPanelSettings sx={{ fontSize: 40, color: '#CC5500' }} />
+                <Box>
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontWeight: 800,
+                      color: '#171717',
+                      letterSpacing: '-0.02em',
+                    }}
+                  >
+                    管理员登录
+                  </Typography>
+                  <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                    ADMIN LOGIN
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ display: 'flex', gap: 2, mt: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Shield sx={{ fontSize: 16, color: '#CC5500' }} />
+                  <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                    系统管理
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <Security sx={{ fontSize: 16, color: '#CC5500' }} />
+                  <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                    安全认证
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+
+            {error && (
+              <Alert
+                severity="error"
+                onClose={clearError}
+                sx={{
+                  mb: 3,
+                  border: '2px solid #DC2626',
+                  borderRadius: 0,
+                  background: '#FEF2F2',
+                }}
+              >
+                {error}
+              </Alert>
+            )}
+
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Box sx={{ mb: 3 }}>
+                <TextField
+                  {...register('email', {
+                    required: '请输入邮箱',
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: '邮箱格式不正确',
+                    },
+                  })}
+                  fullWidth
+                  label="邮箱"
+                  type="email"
+                  error={!!errors.email}
+                  helperText={errors.email?.message}
+                  disabled={isSubmitting}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Email sx={{ color: '#CC5500' }} />
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: '#171717',
+                      borderRadius: 0,
+                      '& fieldset': { borderColor: '#e5e5e5', borderWidth: 2 },
+                      '&:hover fieldset': { borderColor: '#CC5500' },
+                      '&.Mui-focused fieldset': { borderColor: '#CC5500', borderWidth: 2 },
+                    },
+                    '& .MuiInputLabel-root': { color: '#737373', fontWeight: 600 },
+                    '& .MuiInputLabel-root.Mui-focused': { color: '#CC5500', fontWeight: 600 },
+                  }}
+                />
+              </Box>
+
+              <Box sx={{ mb: 2 }}>
+                <TextField
+                  {...register('password', {
+                    required: '请输入密码',
+                    minLength: { value: 6, message: '密码至少6位' },
+                  })}
+                  fullWidth
+                  label="密码"
+                  type={showPassword ? 'text' : 'password'}
+                  error={!!errors.password}
+                  helperText={errors.password?.message}
+                  disabled={isSubmitting}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Lock sx={{ color: '#CC5500' }} />
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton onClick={handleTogglePassword} edge="end">
+                          {showPassword ? <VisibilityOff sx={{ color: '#CC5500' }} /> : <Visibility sx={{ color: '#CC5500' }} />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      color: '#171717',
+                      borderRadius: 0,
+                      '& fieldset': { borderColor: '#e5e5e5', borderWidth: 2 },
+                      '&:hover fieldset': { borderColor: '#CC5500' },
+                      '&.Mui-focused fieldset': { borderColor: '#CC5500', borderWidth: 2 },
+                    },
+                    '& .MuiInputLabel-root': { color: '#737373', fontWeight: 600 },
+                    '& .MuiInputLabel-root.Mui-focused': { color: '#CC5500', fontWeight: 600 },
+                  }}
+                />
+              </Box>
+
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3 }}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      sx={{
+                        color: '#CC5500',
+                        '&.Mui-checked': { color: '#CC5500' },
+                      }}
+                    />
+                  }
+                  label={<Typography variant="body2" sx={{ color: '#737373' }}>记住我</Typography>}
+                />
+              </Box>
+
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                disabled={isSubmitting}
+                sx={{
+                  py: 1.5,
+                  background: '#CC5500',
+                  color: 'white',
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  borderRadius: 0,
+                  border: '2px solid #CC5500',
+                  textTransform: 'none',
+                  boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
+                  '&:hover': {
+                    background: '#B34700',
+                    borderColor: '#B34700',
+                    transform: 'translate(2px, 2px)',
+                    boxShadow: '2px 2px 0 rgba(0,0,0,0.1)',
+                  },
+                  '&:disabled': {
+                    background: '#e5e5e5',
+                    color: '#a3a3a3',
+                    borderColor: '#e5e5e5',
+                  },
+                }}
+              >
+                {isSubmitting ? <CircularProgress size={24} sx={{ color: '#CC5500' }} /> : '登录'}
+              </Button>
+
+              <Divider sx={{ my: 3, borderColor: '#e5e5e5' }} />
+
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="body2" sx={{ color: '#737373' }}>
+                  管理员账号由系统分配
+                </Typography>
+              </Box>
+            </form>
           </Box>
-        </Paper>
+        </motion.div>
       </Container>
-    </Box>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Activity, Shield, Zap } from 'lucide-react';
+import { Activity, Shield, Zap, Heart, Brain, Stethoscope, Pill, Syringe, Microscope } from 'lucide-react';
 import { BackgroundBeams } from '../../components/ui/background-beams';
 import { CardSpotlight } from '../../components/ui/card-spotlight';
 import { TextGenerateEffect } from '../../components/ui/text-generate-effect';
@@ -17,6 +17,7 @@ const platforms = [
     tag: '01',
     accent: '#0066FF',
     accentClass: 'border-primary-500 text-primary-600 hover:bg-primary-50',
+    icon: Heart,
   },
   {
     id: 'doctor',
@@ -28,6 +29,7 @@ const platforms = [
     tag: '02',
     accent: '#00A86B',
     accentClass: 'border-success-500 text-success-600 hover:bg-success-50',
+    icon: Stethoscope,
   },
   {
     id: 'admin',
@@ -39,6 +41,7 @@ const platforms = [
     tag: '03',
     accent: '#CC5500',
     accentClass: 'border-[#CC5500] text-[#CC5500] hover:bg-[#FFF8F0]',
+    icon: Brain,
   },
 ];
 
@@ -84,11 +87,50 @@ const PlatformSelect: React.FC = () => {
             </span>
           </div>
 
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-neutral-800 leading-none tracking-tight mb-4">
-            AI-POWERED
-            <br />
-            MEDICAL SYSTEM
-          </h1>
+          <div className="flex items-center gap-4 mb-4">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-black text-neutral-800 leading-none tracking-tight">
+              AI-POWERED
+              <br />
+              MEDICAL SYSTEM
+            </h1>
+            <motion.div
+              animate={{
+                rotate: [0, 5, -5, 0],
+                scale: [1, 1.05, 1]
+              }}
+              transition={{ duration: 3, repeat: Infinity }}
+              className="hidden md:block"
+            >
+              <Brain className="w-16 h-16 text-primary-500" strokeWidth={1.5} />
+            </motion.div>
+          </div>
+
+          <div className="flex items-center gap-3 mb-4">
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0 }}
+            >
+              <Heart className="w-5 h-5 text-red-500" />
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.3 }}
+            >
+              <Pill className="w-5 h-5 text-primary-500" />
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.6 }}
+            >
+              <Microscope className="w-5 h-5 text-success-500" />
+            </motion.div>
+            <motion.div
+              animate={{ y: [0, -3, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.9 }}
+            >
+              <Syringe className="w-5 h-5 text-orange-500" />
+            </motion.div>
+          </div>
 
           <p className="text-base text-neutral-500 max-w-lg leading-relaxed">
             智能医疗诊断系统 — 选择你的身份入口继续访问
@@ -109,8 +151,20 @@ const PlatformSelect: React.FC = () => {
                 index < platforms.length - 1 ? 'border-b-2 md:border-b-0 md:border-r-2 border-neutral-200' : ''
               }`}
             >
-              <div className="text-xs font-bold text-neutral-400 tracking-widest mb-4">
-                {platform.tag}
+              <div className="flex items-center justify-between mb-4">
+                <div className="text-xs font-bold text-neutral-400 tracking-widest">
+                  {platform.tag}
+                </div>
+                <motion.div
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <platform.icon
+                    className="w-8 h-8"
+                    style={{ color: platform.accent }}
+                    strokeWidth={2}
+                  />
+                </motion.div>
               </div>
 
               <div className="w-10 h-1 mb-4" style={{ background: platform.accent }} />
@@ -164,18 +218,36 @@ const PlatformSelect: React.FC = () => {
           className="flex items-center gap-6 pt-4 border-t border-neutral-200 flex-wrap"
         >
           {[
-            { icon: Shield, text: 'HIPAA COMPLIANT' },
-            { icon: Zap, text: 'AES-256 ENCRYPTED' },
-            { icon: Activity, text: 'ISO 27001 CERTIFIED' },
+            { icon: Shield, text: 'HIPAA COMPLIANT', color: 'text-primary-500' },
+            { icon: Zap, text: 'AI-POWERED DIAGNOSIS', color: 'text-success-500' },
+            { icon: Activity, text: 'REAL-TIME MONITORING', color: 'text-orange-500' },
           ].map((item) => (
-            <div
+            <motion.div
               key={item.text}
               className="flex items-center gap-2 text-xs font-semibold text-neutral-400 tracking-widest"
+              whileHover={{ scale: 1.05 }}
             >
-              <item.icon className="w-3 h-3 text-success-500" />
+              <item.icon className={`w-3 h-3 ${item.color}`} />
               {item.text}
-            </div>
+            </motion.div>
           ))}
+        </motion.div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="mt-8 pt-6 border-t border-neutral-200"
+        >
+          <div className="text-center">
+            <p className="text-sm text-neutral-500 mb-2">
+              Developed by Chang&apos;an University
+            </p>
+            <p className="text-xs text-neutral-400">
+              长安大学 | AI-Powered Medical Diagnosis System | © 2026
+            </p>
+          </div>
         </motion.div>
       </div>
     </div>

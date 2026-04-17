@@ -1,33 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Box,
   Container,
-  Paper,
   Typography,
   Grid,
-  Card,
   Button,
-  Avatar,
-  Chip,
   Alert,
   CircularProgress,
 } from '@mui/material';
 import {
-  LocalHospital as HospitalIcon,
   Description as DescriptionIcon,
   Person as PersonIcon,
   Logout as LogoutIcon,
   EditNote as EditNoteIcon,
   FolderOpen as FolderOpenIcon,
-  Group as GroupIcon,
-  CalendarToday as CalendarTodayIcon,
-  Star as StarIcon,
-  Home as HomeIcon,
+  Favorite as Heart,
+  TrendingUp as Activity,
+  Description as FileText,
 } from '@mui/icons-material';
 import { useAuth } from '../../hooks/useAuth';
 import { patientsApi } from '../../services/api';
-import type { Patient } from '../../types';
 
 const Dashboard: React.FC = () => {
   const { user, logout } = useAuth();
@@ -49,7 +43,7 @@ const Dashboard: React.FC = () => {
       setLoading(true);
       const patients = await patientsApi.getPatients();
       const patientCount = patients?.length || 0;
-      
+
       setStats({
         totalPatients: patientCount,
         managedPatients: patientCount,
@@ -69,266 +63,402 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const getInitial = (name?: string) => {
-    return name?.charAt(0) || '患';
-  };
-
   return (
-    <Box sx={{ minHeight: '100vh', bgcolor: '#f5f5f5' }}>
-      <Container maxWidth="lg" sx={{ mt: 2 }}>
-        <Paper
-          elevation={4}
-          sx={{
-            p: 4,
-            mb: 3,
-            borderRadius: 3,
-            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%)',
-            color: 'white',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
-          <Box sx={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
-                <HospitalIcon sx={{ fontSize: 28, mr: 1.5, color: 'rgba(255,255,255,0.9)' }} />
-                <Typography variant="h5" sx={{ fontWeight: 'bold', color: 'rgba(255,255,255,0.9)' }}>
-                  MediCareAI
+    <div className="min-h-screen bg-neutral-50">
+      {/* Header */}
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="border-b-2 border-neutral-200 bg-white"
+      >
+        <Container maxWidth="lg">
+          <Box sx={{ py: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <div className="w-2 h-12 bg-primary-500" />
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#171717',
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  {user?.full_name || '患者'}
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                  PATIENT DASHBOARD
                 </Typography>
               </Box>
-              <Typography variant="h4" component="h1" sx={{ fontWeight: 'light', letterSpacing: 1 }}>
-                {user?.full_name ? `${user.full_name}，您好！` : '您好！'}
-                <Chip
-                  label="✨ VIP 用户"
-                  size="small"
-                  sx={{
-                    ml: 1.5,
-                    bgcolor: 'rgba(255, 215, 0, 0.3)',
-                    color: '#ffd700',
-                    border: '1px solid rgba(255, 215, 0, 0.5)',
-                    fontWeight: 'bold',
-                  }}
-                />
-              </Typography>
-              <Typography variant="body1" sx={{ opacity: 0.9, mt: 0.5 }}>
-                您的智能健康助手
-              </Typography>
             </Box>
-            <Avatar sx={{ bgcolor: 'rgba(255,255,255,0.2)', width: 56, height: 56, border: '2px solid rgba(255,255,255,0.5)' }}>
-              <Typography variant="h4">{getInitial(user?.full_name)}</Typography>
-            </Avatar>
-          </Box>
-        </Paper>
-
-        {/* Navigation */}
-        <Paper elevation={2} sx={{ p: 2, mb: 3, borderRadius: 2 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1, flexWrap: 'wrap' }}>
             <Button
-              startIcon={<HomeIcon />}
-              onClick={() => navigate('/patient')}
-              sx={{ borderRadius: 2, textTransform: 'none' }}
-            >
-              首页
-            </Button>
-            <Button
-              startIcon={<PersonIcon />}
-              onClick={() => navigate('/patient/profile')}
-              sx={{ borderRadius: 2, textTransform: 'none' }}
-            >
-              个人中心
-            </Button>
-            <Button
-              startIcon={<EditNoteIcon />}
-              onClick={() => navigate('/patient/symptom-submit')}
-              sx={{ borderRadius: 2, textTransform: 'none' }}
-            >
-              症状提交
-            </Button>
-            <Button
-              startIcon={<DescriptionIcon />}
-              onClick={() => navigate('/patient/medical-records')}
-              sx={{ borderRadius: 2, textTransform: 'none' }}
-            >
-              诊疗记录
-            </Button>
-            <Button
-              startIcon={<LogoutIcon />}
               onClick={handleLogout}
-              color="error"
-              sx={{ borderRadius: 2, textTransform: 'none' }}
+              sx={{
+                color: '#DC2626',
+                border: '2px solid #DC2626',
+                px: 3,
+                py: 1,
+                fontWeight: 700,
+                textTransform: 'none',
+                '&:hover': {
+                  background: '#FEF2F2',
+                  borderColor: '#DC2626',
+                },
+              }}
             >
-              退出
+              退出登录
             </Button>
           </Box>
-        </Paper>
+        </Container>
+      </motion.div>
 
-        <Grid container spacing={3} sx={{ mb: 4 }}>
-          <Grid item xs={12} md={4} sx={{ display: 'flex' }}>
-            <Card
-              sx={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                p: 4,
-                textAlign: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: 6,
-                },
-              }}
-              onClick={() => navigate('/patient/symptom-submit')}
-            >
-              <EditNoteIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
-              <Typography variant="h5" gutterBottom fontWeight="bold">
-                症状提交
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
-                描述您的症状，AI 将基于 MinerU 和先进的大语言模型为您进行智能诊断分析
-              </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
-                开始诊断
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4} sx={{ display: 'flex' }}>
-            <Card
-              sx={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                p: 4,
-                textAlign: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: 6,
-                },
-              }}
-              onClick={() => navigate('/patient/medical-records')}
-            >
-              <DescriptionIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
-              <Typography variant="h5" gutterBottom fontWeight="bold">
-                诊疗记录
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
-                查看您的历史诊疗记录、诊断历史和健康状况变化
-              </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
-                查看记录
-              </Button>
-            </Card>
-          </Grid>
-
-          <Grid item xs={12} md={4} sx={{ display: 'flex' }}>
-            <Card
-              sx={{
-                flex: 1,
-                display: 'flex',
-                flexDirection: 'column',
-                p: 4,
-                textAlign: 'center',
-                cursor: 'pointer',
-                transition: 'all 0.3s',
-                '&:hover': {
-                  transform: 'translateY(-10px)',
-                  boxShadow: 6,
-                },
-              }}
-              onClick={() => navigate('/patient/profile')}
-            >
-              <PersonIcon sx={{ fontSize: 64, mb: 2, color: '#2d6a4f' }} />
-              <Typography variant="h5" gutterBottom fontWeight="bold">
-                个人中心
-              </Typography>
-              <Typography variant="body1" color="text.secondary" sx={{ mb: 3, flex: 1 }}>
-                管理您的个人信息、基本资料、联系信息和健康档案
-              </Typography>
-              <Button variant="contained" sx={{ borderRadius: 2, background: 'linear-gradient(135deg, #2d6a4f, #52b788)' }}>
-                编辑信息
-              </Button>
-            </Card>
-          </Grid>
-        </Grid>
-
-        {/* Quick Info */}
-        <Paper elevation={2} sx={{ p: 4, borderRadius: 3, mb: 4 }}>
-          <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <StarIcon />
-            快速了解
-          </Typography>
-          <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <GroupIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
-                  {loading ? <CircularProgress size={24} /> : stats.totalPatients}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  患者总数
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <HospitalIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
-                  {loading ? <CircularProgress size={24} /> : stats.managedPatients}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  管理患者
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <CalendarTodayIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
-                <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
-                  {stats.todayDate}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  今天日期
-                </Typography>
-              </Card>
-            </Grid>
-            <Grid item xs={12} sm={6} md={3}>
-              <Card variant="outlined" sx={{ p: 3, textAlign: 'center' }}>
-                <StarIcon sx={{ fontSize: 24, mb: 1, color: '#2d6a4f' }} />
-                <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#2d6a4f' }}>
-                  AI 智能诊断
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  智能分析
-                </Typography>
-              </Card>
-            </Grid>
-          </Grid>
-        </Paper>
-
-        {/* Footer */}
-        <Box sx={{ textAlign: 'center', py: 3, mb: 4 }}>
-          <Typography variant="body2" color="text.secondary">
-            MediCareAI 使用先进的 AI 技术为您提供智能诊疗建议。
-            <br />
-            本系统仅供参考，请以医生的实际诊断为准。
-            <br />
-            <Typography component="span" color="#2d6a4f" sx={{ mt: 1, display: 'inline-block' }}>
-              长安大学 Chang'an University | License: MIT
-            </Typography>
-          </Typography>
-        </Box>
-
-        {/* Error Alert */}
+      <Container maxWidth="lg" sx={{ py: 4 }}>
         {error && (
-          <Alert severity="error" sx={{ mb: 2 }}>
+          <Alert
+            severity="error"
+            sx={{
+              mb: 3,
+              border: '2px solid #DC2626',
+              borderRadius: 0,
+              background: '#FEF2F2',
+            }}
+          >
             {error}
           </Alert>
         )}
+
+        {loading ? (
+          <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+            <CircularProgress sx={{ color: '#0066FF' }} />
+          </Box>
+        ) : (
+          <>
+            {/* Quick Actions */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+            >
+              <Box
+                sx={{
+                  background: 'white',
+                  border: '2px solid #e5e5e5',
+                  p: 4,
+                  mb: 4,
+                  boxShadow: '8px 8px 0 rgba(0,0,0,0.05)',
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#171717',
+                    mb: 3,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                >
+                  <div className="w-1 h-6 bg-primary-500" />
+                  快速操作
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <motion.div whileHover={{ x: 2, y: 2 }} whileTap={{ x: 4, y: 4 }}>
+                      <Button
+                        fullWidth
+                        onClick={() => navigate('/patient/symptom-submit')}
+                        sx={{
+                          py: 2,
+                          background: '#0066FF',
+                          color: 'white',
+                          fontWeight: 700,
+                          border: '2px solid #0066FF',
+                          textTransform: 'none',
+                          boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
+                          '&:hover': {
+                            background: '#0052CC',
+                            borderColor: '#0052CC',
+                          },
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                          <EditNoteIcon sx={{ fontSize: 28 }} />
+                          <span>提交症状</span>
+                        </Box>
+                      </Button>
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <motion.div whileHover={{ x: 2, y: 2 }} whileTap={{ x: 4, y: 4 }}>
+                      <Button
+                        fullWidth
+                        onClick={() => navigate('/patient/medical-records')}
+                        sx={{
+                          py: 2,
+                          background: 'white',
+                          color: '#0066FF',
+                          fontWeight: 700,
+                          border: '2px solid #0066FF',
+                          textTransform: 'none',
+                          boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
+                          '&:hover': {
+                            background: '#EFF6FF',
+                            borderColor: '#0066FF',
+                          },
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                          <FolderOpenIcon sx={{ fontSize: 28 }} />
+                          <span>诊疗记录</span>
+                        </Box>
+                      </Button>
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <motion.div whileHover={{ x: 2, y: 2 }} whileTap={{ x: 4, y: 4 }}>
+                      <Button
+                        fullWidth
+                        onClick={() => navigate('/patient/profile')}
+                        sx={{
+                          py: 2,
+                          background: 'white',
+                          color: '#0066FF',
+                          fontWeight: 700,
+                          border: '2px solid #0066FF',
+                          textTransform: 'none',
+                          boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
+                          '&:hover': {
+                            background: '#EFF6FF',
+                            borderColor: '#0066FF',
+                          },
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                          <PersonIcon sx={{ fontSize: 28 }} />
+                          <span>个人资料</span>
+                        </Box>
+                      </Button>
+                    </motion.div>
+                  </Grid>
+                  <Grid item xs={12} sm={6} md={3}>
+                    <motion.div whileHover={{ x: 2, y: 2 }} whileTap={{ x: 4, y: 4 }}>
+                      <Button
+                        fullWidth
+                        onClick={() => navigate('/patient/complete-profile')}
+                        sx={{
+                          py: 2,
+                          background: 'white',
+                          color: '#0066FF',
+                          fontWeight: 700,
+                          border: '2px solid #0066FF',
+                          textTransform: 'none',
+                          boxShadow: '4px 4px 0 rgba(0,0,0,0.1)',
+                          '&:hover': {
+                            background: '#EFF6FF',
+                            borderColor: '#0066FF',
+                          },
+                        }}
+                      >
+                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1 }}>
+                          <DescriptionIcon sx={{ fontSize: 28 }} />
+                          <span>完善资料</span>
+                        </Box>
+                      </Button>
+                    </motion.div>
+                  </Grid>
+                </Grid>
+              </Box>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+            >
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={4}>
+                  <Box
+                    sx={{
+                      background: 'white',
+                      border: '2px solid #e5e5e5',
+                      p: 3,
+                      boxShadow: '6px 6px 0 rgba(0,0,0,0.05)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                      <Box
+                        sx={{
+                          width: 48,
+                          height: 48,
+                          background: '#EFF6FF',
+                          border: '2px solid #0066FF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Heart sx={{ color: '#0066FF' }} />
+                      </Box>
+                      <Box>
+                        <Typography variant="h4" sx={{ fontWeight: 800, color: '#171717' }}>
+                          {stats.totalPatients}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                          总患者数
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Box
+                    sx={{
+                      background: 'white',
+                      border: '2px solid #e5e5e5',
+                      p: 3,
+                      boxShadow: '6px 6px 0 rgba(0,0,0,0.05)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                      <Box
+                        sx={{
+                          width: 48,
+                          height: 48,
+                          background: '#EFF6FF',
+                          border: '2px solid #0066FF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <Activity sx={{ color: '#0066FF' }} />
+                      </Box>
+                      <Box>
+                        <Typography variant="h4" sx={{ fontWeight: 800, color: '#171717' }}>
+                          {stats.managedPatients}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                          管理患者数
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <Box
+                    sx={{
+                      background: 'white',
+                      border: '2px solid #e5e5e5',
+                      p: 3,
+                      boxShadow: '6px 6px 0 rgba(0,0,0,0.05)',
+                    }}
+                  >
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 2 }}>
+                      <Box
+                        sx={{
+                          width: 48,
+                          height: 48,
+                          background: '#EFF6FF',
+                          border: '2px solid #0066FF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        <FileText sx={{ color: '#0066FF' }} />
+                      </Box>
+                      <Box>
+                        <Typography variant="h6" sx={{ fontWeight: 800, color: '#171717' }}>
+                          {stats.todayDate}
+                        </Typography>
+                        <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                          今日日期
+                        </Typography>
+                      </Box>
+                    </Box>
+                  </Box>
+                </Grid>
+              </Grid>
+            </motion.div>
+
+            {/* Info Section */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <Box
+                sx={{
+                  background: 'white',
+                  border: '2px solid #e5e5e5',
+                  p: 4,
+                  mt: 4,
+                  boxShadow: '8px 8px 0 rgba(0,0,0,0.05)',
+                }}
+              >
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#171717',
+                    mb: 2,
+                  }}
+                >
+                  关于 MediCareAI
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#737373', lineHeight: 1.8, mb: 3 }}>
+                  MediCareAI 使用先进的 AI 技术为您提供智能诊疗建议。
+                  本系统仅供参考，请以医生的实际诊断为准。
+                </Typography>
+                <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap', mb: 3 }}>
+                  <Box
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      border: '2px solid #e5e5e5',
+                      background: '#fafafa',
+                    }}
+                  >
+                    <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                      长安大学 Chang&apos;an University
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      px: 3,
+                      py: 1,
+                      border: '2px solid #e5e5e5',
+                      background: '#fafafa',
+                    }}
+                  >
+                    <Typography variant="caption" sx={{ color: '#737373', fontWeight: 600 }}>
+                      License: MIT
+                    </Typography>
+                  </Box>
+                </Box>
+                <Box
+                  sx={{
+                    pt: 3,
+                    borderTop: '1px solid #e5e5e5',
+                    textAlign: 'center',
+                  }}
+                >
+                  <Typography variant="caption" sx={{ color: '#a3a3a3', fontWeight: 600 }}>
+                    Developed by Chang&apos;an University | AI-Powered Medical Diagnosis System
+                  </Typography>
+                  <br />
+                  <Typography variant="caption" sx={{ color: '#a3a3a3', fontWeight: 600 }}>
+                    长安大学开发 | 人工智能医疗诊断系统 | © 2026
+                  </Typography>
+                </Box>
+              </Box>
+            </motion.div>
+          </>
+        )}
       </Container>
-    </Box>
+    </div>
   );
 };
 

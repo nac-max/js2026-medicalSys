@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { motion } from 'framer-motion';
 import {
   Box,
-  Card,
-  CardContent,
+  Container,
   Typography,
   Button,
   Chip,
@@ -12,7 +12,6 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Paper,
   Select,
   MenuItem,
   FormControl,
@@ -25,7 +24,6 @@ import {
   DialogContent,
   DialogActions,
   Grid,
-  Avatar,
   IconButton,
   Link,
 } from '@mui/material';
@@ -284,222 +282,415 @@ const Doctors: React.FC = () => {
     }
   };
 
-  // 渲染医生列表
-  const renderDoctorTable = () => {
-    if (doctors.length === 0) {
-      return (
-        <Box sx={{ textAlign: 'center', py: 4 }}>
-          <Typography variant="body1" color="text.secondary">
-            暂无认证申请
-          </Typography>
-        </Box>
-      );
-    }
-
-    return (
-      <TableContainer component={Paper} sx={{ mt: 2 }}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>医生信息</TableCell>
-              <TableCell>医院/科室</TableCell>
-              <TableCell>专业信息</TableCell>
-              <TableCell>执业证号</TableCell>
-              <TableCell>状态</TableCell>
-              <TableCell>提交时间</TableCell>
-              <TableCell>操作</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {doctors.map((doctor) => {
-              const statusInfo = getStatusLabel(doctor.status);
-              return (
-                <TableRow key={doctor.id} hover>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                      <Avatar sx={{ mr: 2, bgcolor: 'primary.main' }}>
-                        <DoctorIcon />
-                      </Avatar>
-                      <Box>
-                        <Typography variant="body1" fontWeight="medium">
-                          {doctor.user_id || '未知'}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          ID: {doctor.id || '-'}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">
-                      {doctor.hospital || '-'}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {doctor.specialty || '-'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">
-                      {(doctor as any).title || '-'}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary">
-                      {doctor.specialty || '-'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2" sx={{ fontFamily: 'monospace' }}>
-                      {doctor.license_number || '-'}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Chip
-                      label={statusInfo.label}
-                      color={statusInfo.color}
-                      size="small"
-                      variant="outlined"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Typography variant="body2">
-                      {doctor.submitted_at 
-                        ? new Date(doctor.submitted_at).toLocaleDateString('zh-CN')
-                        : '-'
-                      }
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    <Box sx={{ display: 'flex', gap: 1 }}>
-                      <IconButton
-                        size="small"
-                        onClick={() => handleViewDetails(doctor)}
-                        title="查看详情"
-                      >
-                        <ViewIcon />
-                      </IconButton>
-                      {doctor.status === 'pending' && (
-                        <>
-                          <Button
-                            size="small"
-                            variant="contained"
-                            color="success"
-                            startIcon={<CheckIcon />}
-                            onClick={() => handleApprove(doctor.id)}
-                          >
-                            通过
-                          </Button>
-                          <Button
-                            size="small"
-                            variant="contained"
-                            color="error"
-                            startIcon={<RejectIcon />}
-                            onClick={() => handleReject(doctor.id)}
-                          >
-                            拒绝
-                          </Button>
-                        </>
-                      )}
-                      {doctor.status === 'approved' && (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          color="warning"
-                          startIcon={<RejectIcon />}
-                          onClick={() => handleOpenRevokeDialog(doctor)}
-                        >
-                          撤销认证
-                        </Button>
-                      )}
-                      {(doctor.status === 'revoked' || doctor.status === 'rejected') && (
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="success"
-                          startIcon={<CheckIcon />}
-                          onClick={() => handleOpenReapproveDialog(doctor)}
-                        >
-                          重新认证
-                        </Button>
-                      )}
-                    </Box>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    );
-  };
-
   if (loading) {
     return (
-      <Box sx={{ p: 3, display: 'flex', justifyContent: 'center' }}>
-        <CircularProgress />
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="400px">
+        <CircularProgress sx={{ color: '#CC5500' }} />
       </Box>
     );
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Paper
-        elevation={0}
-        sx={{
-          mb: 3,
-          p: 3,
-          background: 'linear-gradient(135deg, #2d6a4f 0%, #52b788 100%)',
-          color: 'white',
-          borderRadius: 2,
-        }}
+    <div className="min-h-screen bg-neutral-50">
+      {/* Header */}
+      <motion.div
+        initial={{ y: -20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        className="border-b-2 border-neutral-200 bg-white"
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <Box>
-            <Typography variant="h4" fontWeight="bold" gutterBottom>
-              医生认证管理
-            </Typography>
-            <Typography variant="body1" sx={{ opacity: 0.9, maxWidth: 600 }}>
-              审核医生资质认证申请
-            </Typography>
+        <Container maxWidth="lg">
+          <Box sx={{ py: 3, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <div className="w-2 h-12" style={{ background: '#CC5500' }} />
+              <Box>
+                <Typography
+                  variant="h5"
+                  sx={{
+                    fontWeight: 800,
+                    color: '#171717',
+                    letterSpacing: '-0.02em',
+                  }}
+                >
+                  医生认证管理
+                </Typography>
+                <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                  DOCTOR VERIFICATION
+                </Typography>
+              </Box>
+            </Box>
+            <IconButton
+              onClick={fetchDoctors}
+              sx={{
+                border: '2px solid #CC5500',
+                color: '#CC5500',
+                '&:hover': {
+                  background: '#FFF8F0',
+                },
+              }}
+            >
+              <RefreshIcon />
+            </IconButton>
           </Box>
-          <IconButton 
-            onClick={fetchDoctors} 
-            title="刷新"
-            sx={{ 
-              color: 'white',
-              bgcolor: 'rgba(255,255,255,0.1)',
-              '&:hover': { bgcolor: 'rgba(255,255,255,0.2)' }
+        </Container>
+      </motion.div>
+
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        {/* Filter */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.1 }}
+        >
+          <Box
+            sx={{
+              background: 'white',
+              border: '2px solid #e5e5e5',
+              p: 3,
+              mb: 4,
+              boxShadow: '6px 6px 0 rgba(0,0,0,0.05)',
             }}
           >
-            <RefreshIcon />
-          </IconButton>
-        </Box>
-      </Paper>
-
-      {/* 筛选器 */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent>
-          <Typography variant="h6" gutterBottom>
-            认证申请列表
-          </Typography>
-          <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-            <InputLabel id="status-filter-label">状态筛选</InputLabel>
-            <Select
-              labelId="status-filter-label"
-              id="status-filter"
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              label="状态筛选"
+            <Typography
+              variant="h6"
+              sx={{
+                fontWeight: 800,
+                color: '#171717',
+                mb: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
             >
-              <MenuItem value="">全部状态</MenuItem>
-              <MenuItem value="pending">待审核</MenuItem>
-              <MenuItem value="approved">已通过</MenuItem>
-              <MenuItem value="rejected">已拒绝</MenuItem>
-            </Select>
-          </FormControl>
-        </CardContent>
-      </Card>
+              <div className="w-1 h-6" style={{ background: '#CC5500' }} />
+              筛选条件
+            </Typography>
+            <FormControl sx={{ minWidth: 200 }}>
+              <InputLabel
+                sx={{
+                  color: '#737373',
+                  fontWeight: 600,
+                  '&.Mui-focused': { color: '#CC5500' },
+                }}
+              >
+                状态筛选
+              </InputLabel>
+              <Select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value)}
+                label="状态筛选"
+                sx={{
+                  borderRadius: 0,
+                  '& .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#e5e5e5',
+                    borderWidth: 2,
+                  },
+                  '&:hover .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#CC5500',
+                  },
+                  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                    borderColor: '#CC5500',
+                    borderWidth: 2,
+                  },
+                }}
+              >
+                <MenuItem value="">全部状态</MenuItem>
+                <MenuItem value="pending">待审核</MenuItem>
+                <MenuItem value="approved">已通过</MenuItem>
+                <MenuItem value="rejected">已拒绝</MenuItem>
+                <MenuItem value="revoked">已撤销</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+        </motion.div>
 
-      {/* 医生列表 */}
-      {renderDoctorTable()}
+        {/* Doctor List */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.2 }}
+        >
+          <Box
+            sx={{
+              background: 'white',
+              border: '2px solid #e5e5e5',
+              boxShadow: '8px 8px 0 rgba(0,0,0,0.05)',
+            }}
+          >
+            {doctors.length === 0 ? (
+              <Box
+                sx={{
+                  textAlign: 'center',
+                  py: 8,
+                  border: '2px dashed #e5e5e5',
+                  background: '#fafafa',
+                  m: 3,
+                }}
+              >
+                <DoctorIcon sx={{ fontSize: 48, color: '#d4d4d4', mb: 2 }} />
+                <Typography variant="body1" sx={{ color: '#737373', fontWeight: 600 }}>
+                  暂无认证申请
+                </Typography>
+              </Box>
+            ) : (
+              <TableContainer>
+                <Table>
+                  <TableHead>
+                    <TableRow
+                      sx={{
+                        background: '#fafafa',
+                        '& th': {
+                          borderBottom: '2px solid #e5e5e5',
+                          fontWeight: 800,
+                          color: '#171717',
+                          py: 2,
+                        },
+                      }}
+                    >
+                      <TableCell>医生信息</TableCell>
+                      <TableCell>医院/科室</TableCell>
+                      <TableCell>专业信息</TableCell>
+                      <TableCell>执业证号</TableCell>
+                      <TableCell>状态</TableCell>
+                      <TableCell>提交时间</TableCell>
+                      <TableCell>操作</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {doctors.map((doctor) => {
+                      const statusInfo = getStatusLabel(doctor.status);
+                      return (
+                        <TableRow
+                          key={doctor.id}
+                          sx={{
+                            '&:hover': {
+                              background: '#fafafa',
+                            },
+                            '& td': {
+                              borderBottom: '1px solid #e5e5e5',
+                              py: 2,
+                            },
+                          }}
+                        >
+                          <TableCell>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                              <Box
+                                sx={{
+                                  width: 40,
+                                  height: 40,
+                                  background: '#FFF8F0',
+                                  border: '2px solid #CC5500',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                <DoctorIcon sx={{ color: '#CC5500', fontSize: 20 }} />
+                              </Box>
+                              <Box>
+                                <Typography variant="body1" sx={{ fontWeight: 700, color: '#171717' }}>
+                                  {doctor.doctor_name || '未知'}
+                                </Typography>
+                                <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                                  ID: {doctor.id?.slice(0, 8) || '-'}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: '#171717' }}>
+                              {doctor.hospital || '-'}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#737373' }}>
+                              {doctor.department || '-'}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: '#171717' }}>
+                              {doctor.title || '-'}
+                            </Typography>
+                            <Typography variant="caption" sx={{ color: '#737373' }}>
+                              {doctor.specialization || '-'}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="body2" sx={{ fontWeight: 600, color: '#171717' }}>
+                              {doctor.license_number || '-'}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Box
+                              sx={{
+                                px: 2,
+                                py: 0.5,
+                                border: `2px solid ${
+                                  statusInfo.color === 'success'
+                                    ? '#00A86B'
+                                    : statusInfo.color === 'warning'
+                                    ? '#F59E0B'
+                                    : '#DC2626'
+                                }`,
+                                background:
+                                  statusInfo.color === 'success'
+                                    ? '#F0FDF4'
+                                    : statusInfo.color === 'warning'
+                                    ? '#FEF3C7'
+                                    : '#FEF2F2',
+                                display: 'inline-block',
+                              }}
+                            >
+                              <Typography
+                                variant="caption"
+                                sx={{
+                                  fontWeight: 700,
+                                  color:
+                                    statusInfo.color === 'success'
+                                      ? '#00A86B'
+                                      : statusInfo.color === 'warning'
+                                      ? '#F59E0B'
+                                      : '#DC2626',
+                                }}
+                              >
+                                {statusInfo.label}
+                              </Typography>
+                            </Box>
+                          </TableCell>
+                          <TableCell>
+                            <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600 }}>
+                              {new Date(doctor.created_at).toLocaleDateString('zh-CN')}
+                            </Typography>
+                          </TableCell>
+                          <TableCell>
+                            <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                              <Button
+                                size="small"
+                                onClick={() => handleViewDetails(doctor)}
+                                sx={{
+                                  color: '#0066FF',
+                                  border: '2px solid #0066FF',
+                                  textTransform: 'none',
+                                  fontWeight: 700,
+                                  minWidth: 'auto',
+                                  px: 1.5,
+                                  '&:hover': {
+                                    background: '#EFF6FF',
+                                  },
+                                }}
+                              >
+                                <ViewIcon sx={{ fontSize: 16 }} />
+                              </Button>
+                              {doctor.status === 'pending' && (
+                                <>
+                                  <Button
+                                    size="small"
+                                    onClick={() => handleApprove(doctor.id)}
+                                    sx={{
+                                      color: '#00A86B',
+                                      border: '2px solid #00A86B',
+                                      textTransform: 'none',
+                                      fontWeight: 700,
+                                      minWidth: 'auto',
+                                      px: 1.5,
+                                      '&:hover': {
+                                        background: '#F0FDF4',
+                                      },
+                                    }}
+                                  >
+                                    <CheckIcon sx={{ fontSize: 16 }} />
+                                  </Button>
+                                  <Button
+                                    size="small"
+                                    onClick={() => handleReject(doctor.id)}
+                                    sx={{
+                                      color: '#DC2626',
+                                      border: '2px solid #DC2626',
+                                      textTransform: 'none',
+                                      fontWeight: 700,
+                                      minWidth: 'auto',
+                                      px: 1.5,
+                                      '&:hover': {
+                                        background: '#FEF2F2',
+                                      },
+                                    }}
+                                  >
+                                    <RejectIcon sx={{ fontSize: 16 }} />
+                                  </Button>
+                                </>
+                              )}
+                              {doctor.status === 'approved' && (
+                                <Button
+                                  size="small"
+                                  onClick={() => handleOpenRevokeDialog(doctor)}
+                                  sx={{
+                                    color: '#F59E0B',
+                                    border: '2px solid #F59E0B',
+                                    textTransform: 'none',
+                                    fontWeight: 700,
+                                    fontSize: '0.75rem',
+                                    px: 1.5,
+                                    '&:hover': {
+                                      background: '#FEF3C7',
+                                    },
+                                  }}
+                                >
+                                  撤销
+                                </Button>
+                              )}
+                              {(doctor.status === 'revoked' || doctor.status === 'rejected') && (
+                                <Button
+                                  size="small"
+                                  onClick={() => handleOpenReapproveDialog(doctor)}
+                                  sx={{
+                                    color: '#00A86B',
+                                    border: '2px solid #00A86B',
+                                    textTransform: 'none',
+                                    fontWeight: 700,
+                                    fontSize: '0.75rem',
+                                    px: 1.5,
+                                    '&:hover': {
+                                      background: '#F0FDF4',
+                                    },
+                                  }}
+                                >
+                                  重新认证
+                                </Button>
+                              )}
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </Box>
+        </motion.div>
+
+        {/* Footer */}
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Box
+            sx={{
+              background: 'white',
+              border: '2px solid #e5e5e5',
+              p: 3,
+              mt: 4,
+              boxShadow: '6px 6px 0 rgba(0,0,0,0.05)',
+              textAlign: 'center',
+            }}
+          >
+            <Typography variant="body2" sx={{ color: '#737373', fontWeight: 600, mb: 1 }}>
+              Developed by Chang&apos;an University | AI-Powered Medical Diagnosis System
+            </Typography>
+            <Typography variant="caption" sx={{ color: '#a3a3a3', fontWeight: 600 }}>
+              长安大学开发 | 人工智能医疗诊断系统 | © 2026
+            </Typography>
+          </Box>
+        </motion.div>
+      </Container>
 
       {/* 医生详情对话框 */}
       <Dialog 
@@ -858,7 +1049,7 @@ const Doctors: React.FC = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Box>
+    </div>
   );
 };
 

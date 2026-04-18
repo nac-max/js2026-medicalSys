@@ -122,12 +122,6 @@ class AIModelConfig(BaseModel):
     model_id: str
     enabled: bool = True
     provider: Optional[str] = "custom"
-    """AI model configuration | AI模型配置"""
-
-    api_url: str
-    api_key: str
-    model_id: str
-    enabled: bool = True
 
 
 class AIModelStatus(BaseModel):
